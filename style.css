@@ -1,0 +1,41 @@
+body {
+    margin-top: 200px;
+}
+
+#calculator {
+    display: flex;
+    margin: auto;
+    width: 370px;
+    flex: wrap;
+    flex-direction: column;
+    border: 2px solid grey;
+    padding: 5px;
+}
+
+#upper {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+#display {
+    border: 1px solid grey;
+    text-align: right;
+    padding: 2px;
+}
+
+#downer {
+    display: flex;
+    flex-wrap: nowrap;
+    align-content: space-between;
+}
+
+#numpad {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    width: 50px;
+    height: 50px;
+}
