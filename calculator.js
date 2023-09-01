@@ -23,7 +23,7 @@ function operate(operator, firstNumber, secondNumber) {
         case "×":
             result = multiply(firstNumber, secondNumber);
             break;
-        case "/":
+        case "÷":
             result = divide(firstNumber, secondNumber);
             break;
     }
@@ -67,6 +67,7 @@ buttons.forEach(button => button.addEventListener(
         // TODO: what if operator first? Or double operator?
         // as long as number1 does not exist, break, 
         const inputValue = convertOperator(e.target.id);
+        console.log(inputValue);
         console.table(operateObj);
         let displayValue = "";
         // get left term
@@ -80,9 +81,16 @@ buttons.forEach(button => button.addEventListener(
             refreshDisplay(operateObj.number1);
         }
         // get operator (first time? What if second or third time?)
-        else if (operateObj.number1 && /[\+÷×-]/.test(inputValue)) {
+        else if (operateObj.number1 && !operateObj.number2 && /[\+÷×-]/.test(inputValue)) {
             operateObj.operator = inputValue;
+            console.log("getting operator")
             displayValue = operateObj.number1 + " " + inputValue;
+            refreshDisplay(displayValue);
+        }
+        // get number 2
+        else if (!operateObj.number2 && /[0-9]/.test(inputValue)) {
+            operateObj.number2 = inputValue;
+            displayValue = `${operateObj.number1} ${operateObj.operator} ${operateObj.number2}`;
             refreshDisplay(displayValue);
         }
         // keep getting number2
@@ -90,22 +98,20 @@ buttons.forEach(button => button.addEventListener(
             operateObj.number2 = operateObj.number2 + inputValue;
             displayValue = `${operateObj.number1} ${operateObj.operator} ${operateObj.number2}`;
             refreshDisplay(displayValue);
+            console.log("still n 2");
         }
-        // // if input equals second time an operator or =, then calculate result
-        // if (operateObj.number2 && /[\+÷×-]/.test(inputValue)) {
-        //     const terms = [ParseInt(operateObj.number1), ParseInt(operateObj.number2)];
-        //     operateObj.number1 = operate(operateObj.operator, terms[0], terms[1]);
-        //     refreshDisplay(operateObj.number1);
-        //     // re-initialize
-        //     delete operateObj.operator;
-        //     delete operateObj.number2;
-        // }
-        // get number 2
+        // if input equals second time an operator or =, then calculate result
+        else if (operateObj.number2 && /[\+÷×-]/.test(inputValue)) {
+            const terms = [parseInt(operateObj.number1), parseInt(operateObj.number2)];
+            operateObj.number1 = operate(operateObj.operator, terms[0], terms[1]);
+            refreshDisplay(operateObj.number1);
+            console.log("finally");
+            // re-initialize
+            operateObj.operator = inputValue;
+            delete operateObj.number2;
+        }
         else {
-            operateObj.number2 = inputValue;
-            displayValue = `${operateObj.number1} ${operateObj.operator} ${operateObj.number2}`;
-            refreshDisplay(displayValue);
+            alert("ERROR");
         }
-        
     }
 ));
