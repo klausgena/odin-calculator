@@ -64,8 +64,6 @@ let operateObj = {};
 buttons.forEach(button => button.addEventListener(
     "click",
     function (e) {
-        // TODO: what if operator first? Or double operator?
-        // as long as number1 does not exist, break, 
         const inputValue = convertOperator(e.target.id);
         console.log(inputValue);
         console.table(operateObj);
@@ -110,8 +108,17 @@ buttons.forEach(button => button.addEventListener(
             operateObj.operator = inputValue;
             delete operateObj.number2;
         }
-        else {
-            alert("ERROR");
+        else if (inputValue == "clear")
+        {
+            refreshDisplay("0.00");
+            operateObj = {};
+        }
+        else if (inputValue == "=")
+        {
+            const terms = [parseInt(operateObj.number1), parseInt(operateObj.number2)];
+            result = operate(operateObj.operator, terms[0], terms[1]);
+            refreshDisplay(result);
+            operateObj = {};
         }
     }
 ));
